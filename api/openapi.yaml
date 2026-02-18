@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  description: Simple contract-first API for demonstrating OpenAPI + runtime schema
+    validation
+  title: Weather API Demo
+  version: 1.0.0
+servers:
+- url: http://localhost:3000
+paths:
+  /weather:
+    get:
+      operationId: weatherGET
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Weather"
+                type: array
+          description: List of weather reports
+      summary: Get all weather reports
+      x-eov-operation-handler: controllers/DefaultController
+    post:
+      operationId: weatherPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Weather"
+        required: true
+      responses:
+        "201":
+          description: Weather report created
+        "400":
+          description: Invalid input
+      summary: Create a weather report
+      x-eov-operation-handler: controllers/DefaultController
+components:
+  schemas:
+    Weather:
+      additionalProperties: false
+      example:
+        cityCode: HKI
+        temperature: 21.5
+        windSpeed: 5.4
+        sensorId: 101
+      properties:
+        sensorId:
+          description: Unique identifier for the sensor
+          example: 101
+          type: integer
+        cityCode:
+          description: City identifier code
+          example: HKI
+          type: string
+        temperature:
+          description: Temperature reading in Celsius
+          example: 21.5
+          type: number
+        windSpeed:
+          description: Wind speed in m/s
+          example: 5.4
+          type: number
+      required:
+      - cityCode
+      - sensorId
+      - temperature
+      - windSpeed
+      type: object
