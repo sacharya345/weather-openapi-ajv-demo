@@ -8,14 +8,15 @@
 
 const Controller = require('./Controller');
 const service = require('../services/DefaultService');
+
 const weatherGET = async (request, response) => {
   await Controller.handleRequest(request, response, service.weatherGET);
 };
 
 const weatherPOST = async (request, response) => {
+  console.log('Controller executed');
   await Controller.handleRequest(request, response, service.weatherPOST);
 };
-
 
 module.exports = {
   weatherGET,
